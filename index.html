@@ -124,7 +124,7 @@
 <body>
     <div class="container fade-in">
         <h2>MIKKIEX Exchange</h2>
-        <form id="exchangeForm">
+        <form id="exchangeForm" onsubmit=exchange(event)>
             <div class="input-flex">
                 <div class="input-group">
                     <input type="number" min="0" id="amount" placeholder="Введите сумму" oninput="updateResult()" inputmode="decimal">
@@ -132,7 +132,7 @@
                 </div>
                 <div class="result" id="result">= 0 RUB</div>
             </div>
-            <button type="submit" onclick="exchange(event)">Обменять сейчас</button>
+            <button type="submit">Обменять сейчас</button>
         </form>
     </div>
 
