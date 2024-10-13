@@ -141,7 +141,6 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Добавляем обработчик события viewportChanged
         tg.onEvent('viewportChanged', function() {
             console.log('Viewport changed');
         });
@@ -166,19 +165,16 @@
             let amount = document.getElementById('amount').value;
             if (amount && !isNaN(amount)) {
                 let rubAmount = (amount * EXCHANGE_RATE).toFixed(2);
-                let data = {
+                let data = JSON.stringify({
                     aed: parseFloat(amount),
                     rub: parseFloat(rubAmount),
                     rate: EXCHANGE_RATE
-                };
+                });
                 console.log("Подготовленные данные:", data);
                 try {
-                    tg.sendData(JSON.stringify(data));
+                    tg.sendData(data);
                     console.log("Данные успешно отправлены");
-                    // Добавляем небольшую задержку перед закрытием окна
-                    setTimeout(() => {
-                        tg.close();
-                    }, 1000);
+                    tg.close();
                 } catch (error) {
                     console.error("Ошибка при отправке данных:", error);
                     alert("Произошла ошибка при отправке данных. Пожалуйста, попробуйте еще раз.");
@@ -188,13 +184,8 @@
             }
         }
 
-        // Добавляем обработчик события на готовность приложения
         tg.ready();
         console.log("Приложение готово");
-
-        document.addEventListener('DOMContentLoaded', (event) => {
-            document.querySelector('.container').classList.add('fade-in');
-        });
     </script>
 </body>
 
