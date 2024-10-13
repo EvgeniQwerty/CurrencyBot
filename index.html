@@ -166,8 +166,9 @@
                     rub: parseFloat(rubAmount),
                     rate: EXCHANGE_RATE
                 });
+                console.log(data);
                 tg.sendData(data);
-                tg.close();
+                // tg.close();
             } else {
                 alert('Пожалуйста, введите корректную сумму');
             }
