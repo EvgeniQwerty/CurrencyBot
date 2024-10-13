@@ -84,25 +84,6 @@
             transition: all 0.3s ease;
         }
 
-        button {
-            width: 100%;
-            padding: 15px;
-            background-color: #1e88e5;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        button:hover {
-            background-color: #1565c0;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(30, 136, 229, 0.3);
-        }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -124,7 +105,7 @@
 <body>
     <div class="container fade-in">
         <h2>MIKKIEX Exchange</h2>
-        <form id="exchangeForm" onsubmit="exchange(event)">
+        <form id="exchangeForm">
             <div class="input-flex">
                 <div class="input-group">
                     <input type="number" min="0" id="amount" placeholder="Введите сумму" oninput="updateResult()" inputmode="decimal">
@@ -132,7 +113,6 @@
                 </div>
                 <div class="result" id="result">= 0 RUB</div>
             </div>
-            <button type="submit">Обменять сейчас</button>
         </form>
     </div>
 
@@ -160,30 +140,39 @@
             }
         }
 
-        function exchange(event) {
-            event.preventDefault();
+        function exchange() {
             let amount = document.getElementById('amount').value;
-            // if (amount && !isNaN(amount)) {
-            //     let rubAmount = (amount * EXCHANGE_RATE).toFixed(2);
-            //     let data = JSON.stringify({
-            //         aed: parseFloat(amount),
-            //         rub: parseFloat(rubAmount),
-            //         rate: EXCHANGE_RATE
-            //     });
-            //     console.log("Подготовленные данные:", data);
-            //     try {
-                    //tg.sendData(data);
-                    Telegram.WebApp.sendData("1");
+            if (amount && !isNaN(amount)) {
+                let rubAmount = (amount * EXCHANGE_RATE).toFixed(2);
+                let data = JSON.stringify({
+                    aed: parseFloat(amount),
+                    rub: parseFloat(rubAmount),
+                    rate: EXCHANGE_RATE
+                });
+                console.log("Подготовленные данные:", data);
+                try {
+                    tg.sendData(data);
                     console.log("Данные успешно отправлены");
                     tg.close();
-            //     } catch (error) {
-            //         console.error("Ошибка при отправке данных:", error);
-            //         alert("Произошла ошибка при отправке данных. Пожалуйста, попробуйте еще раз.");
-            //     }
-            // } else {
-            //     alert('Пожалуйста, введите корректную сумму');
-            // }
+                } catch (error) {
+                    console.error("Ошибка при отправке данных:", error);
+                    alert("Произошла ошибка при отправке данных. Пожалуйста, попробуйте еще раз.");
+                }
+            } else {
+                alert('Пожалуйста, введите корректную сумму');
+            }
         }
+
+        // Настройка основной кнопки Telegram Web App
+        tg.MainButton.setParams({
+            text: "Обменять сейчас",
+            color: "#1e88e5",
+            isVisible: true
+        });
+
+        tg.MainButton.onClick(() => {
+            exchange();
+        });
 
         tg.ready();
         console.log("Приложение готово");
