@@ -163,26 +163,26 @@
         function exchange(event) {
             event.preventDefault();
             let amount = document.getElementById('amount').value;
-            if (amount && !isNaN(amount)) {
-                let rubAmount = (amount * EXCHANGE_RATE).toFixed(2);
-                let data = JSON.stringify({
-                    aed: parseFloat(amount),
-                    rub: parseFloat(rubAmount),
-                    rate: EXCHANGE_RATE
-                });
-                console.log("Подготовленные данные:", data);
-                try {
+            // if (amount && !isNaN(amount)) {
+            //     let rubAmount = (amount * EXCHANGE_RATE).toFixed(2);
+            //     let data = JSON.stringify({
+            //         aed: parseFloat(amount),
+            //         rub: parseFloat(rubAmount),
+            //         rate: EXCHANGE_RATE
+            //     });
+            //     console.log("Подготовленные данные:", data);
+            //     try {
                     //tg.sendData(data);
-                    Telegram.WebApp.sendData(data);
+                    Telegram.WebApp.sendData("1");
                     console.log("Данные успешно отправлены");
                     tg.close();
-                } catch (error) {
-                    console.error("Ошибка при отправке данных:", error);
-                    alert("Произошла ошибка при отправке данных. Пожалуйста, попробуйте еще раз.");
-                }
-            } else {
-                alert('Пожалуйста, введите корректную сумму');
-            }
+            //     } catch (error) {
+            //         console.error("Ошибка при отправке данных:", error);
+            //         alert("Произошла ошибка при отправке данных. Пожалуйста, попробуйте еще раз.");
+            //     }
+            // } else {
+            //     alert('Пожалуйста, введите корректную сумму');
+            // }
         }
 
         tg.ready();
