@@ -119,7 +119,8 @@
     <script>
         const EXCHANGE_RATE = 24.35;  // Курс обмена: 1 AED = 24.35 RUB
         let tg = window.Telegram.WebApp;
-        tg.expand();
+
+        tg.expand();  // Разворачиваем WebApp для полного экрана
 
         tg.onEvent('viewportChanged', function () {
             console.log('Viewport changed');
@@ -135,8 +136,17 @@
                 setTimeout(() => {
                     resultElement.style.opacity = 1;
                 }, 50);
+                tg.MainButton.setParams({
+                    text: "Обменять сейчас",
+                    isVisible: true,
+                });
+                tg.MainButton.enable();  // Активируем кнопку при наличии суммы
             } else {
                 resultElement.textContent = '= 0 RUB';
+                tg.MainButton.setParams({
+                    isVisible: false,
+                });
+                tg.MainButton.disable();  // Деактивируем кнопку, если сумма пустая
             }
         }
 
@@ -167,10 +177,10 @@
         tg.MainButton.setParams({
             text: "Обменять сейчас",
             color: "#1e88e5",
-            isVisible: true
+            isVisible: false  // Скрыть кнопку по умолчанию
         });
 
-        tg.MainButton.show(); // Показываем кнопку
+        tg.MainButton.show();  // Показываем кнопку после её настройки
 
         tg.MainButton.onClick(() => {
             exchange();
