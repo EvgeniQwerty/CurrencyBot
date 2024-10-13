@@ -157,14 +157,19 @@
         function exchange() {
             let amount = document.getElementById('amount').value;
             if (amount && !isNaN(amount)) {
-                tg.sendData(amount);
+                let rubAmount = (amount * EXCHANGE_RATE).toFixed(2);
+                let data = JSON.stringify({
+                    aed: parseFloat(amount),
+                    rub: parseFloat(rubAmount),
+                    rate: EXCHANGE_RATE
+                });
+                tg.sendData(data);
                 tg.close();
             } else {
                 alert('Пожалуйста, введите корректную сумму');
             }
         }
 
-        // Добавляем класс для анимации появления при загрузке
         document.addEventListener('DOMContentLoaded', (event) => {
             document.querySelector('.container').classList.add('fade-in');
         });
