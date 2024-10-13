@@ -172,7 +172,8 @@
                 });
                 console.log("Подготовленные данные:", data);
                 try {
-                    tg.sendData(data);
+                    //tg.sendData(data);
+                    Telegram.WebApp.sendData(data);
                     console.log("Данные успешно отправлены");
                     tg.close();
                 } catch (error) {
