@@ -121,7 +121,7 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        tg.onEvent('viewportChanged', function() {
+        tg.onEvent('viewportChanged', function () {
             console.log('Viewport changed');
         });
 
@@ -169,6 +169,8 @@
             color: "#1e88e5",
             isVisible: true
         });
+
+        tg.MainButton.show(); // Показываем кнопку
 
         tg.MainButton.onClick(() => {
             exchange();
