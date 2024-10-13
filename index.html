@@ -127,7 +127,8 @@
         <form id="exchangeForm" onsubmit=exchange(event)>
             <div class="input-flex">
                 <div class="input-group">
-                    <input type="number" min="0" id="amount" placeholder="Введите сумму" oninput="updateResult()" inputmode="decimal">
+                    <input type="number" min="0" id="amount" placeholder="Введите сумму" oninput="updateResult()"
+                        inputmode="decimal">
                     <span class="currency">AED</span>
                 </div>
                 <div class="result" id="result">= 0 RUB</div>
@@ -167,8 +168,12 @@
                     rate: EXCHANGE_RATE
                 });
                 console.log(data);
-                tg.sendData(data);
-                //tg.sendData("test");
+                try {
+                    tg.sendData(data);
+                } catch (error) {
+                    console.error("Ошибка при отправке данных:", error);
+                    alert("Произошла ошибка при отправке данных. Пожалуйста, попробуйте еще раз.");
+                }
                 tg.close();
             } else {
                 alert('Пожалуйста, введите корректную сумму');
