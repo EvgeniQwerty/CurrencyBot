@@ -7,39 +7,44 @@
     <title>MIKKIEX Exchange</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f5f5f5;
-            color: #333;
+            background-color: var(--tg-theme-bg-color, #f5f5f5);
+            color: var(--tg-theme-text-color, #333);
         }
 
         .container {
             max-width: 400px;
             margin: 0 auto;
-            background-color: white;
+            background-color: var(--tg-theme-secondary-bg-color, white);
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             padding: 30px;
+            transition: all 0.3s ease;
         }
 
         h2 {
             text-align: center;
-            color: #1e88e5;
+            color: var(--tg-theme-button-color, #1e88e5);
             margin-bottom: 25px;
+            font-weight: 500;
         }
 
         .rate-block {
-            /* background-color: #f5f5f5; */
+            background-color: var(--tg-theme-bg-color, #f5f5f5);
             border-radius: 15px;
             padding: 15px;
             margin-bottom: 25px;
+            transition: all 0.3s ease;
         }
 
         .rate-label {
             font-size: 14px;
-            color: #757575;
+            color: var(--tg-theme-hint-color, #757575);
             margin-bottom: 10px;
         }
 
@@ -55,29 +60,31 @@
         }
 
         .rate-arrow {
-            color: #1e88e5;
+            color: var(--tg-theme-button-color, #1e88e5);
             font-size: 20px;
         }
 
         .rate-value {
             font-size: 18px;
             font-weight: 500;
-            color: #1e88e5;
-            background-color: #e3f2fd;
+            color: var(--tg-theme-button-color, #1e88e5);
+            background-color: var(--tg-theme-secondary-bg-color, #e3f2fd);
             padding: 5px 10px;
             border-radius: 5px;
+            transition: all 0.3s ease;
         }
 
         .exchange-block {
-            background-color: #f5f5f5;
+            background-color: var(--tg-theme-bg-color, #f5f5f5);
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
+            transition: all 0.3s ease;
         }
 
         .exchange-label {
             font-size: 14px;
-            color: #757575;
+            color: var(--tg-theme-hint-color, #757575);
             margin-bottom: 10px;
         }
 
@@ -93,6 +100,8 @@
             font-size: 18px;
             outline: none;
             width: 60%;
+            color: var(--tg-theme-text-color, #333);
+            transition: all 0.3s ease;
         }
 
         .currency-select {
@@ -100,8 +109,9 @@
             align-items: center;
             cursor: pointer;
             padding: 5px 10px;
-            background-color: #e0e0e0;
+            background-color: var(--tg-theme-secondary-bg-color, #e0e0e0);
             border-radius: 5px;
+            transition: all 0.3s ease;
         }
 
         .currency-logo {
@@ -115,15 +125,15 @@
         }
 
         .swap-button {
-            background-color: #1e88e5;
-            color: white;
+            background-color: var(--tg-theme-button-color, #1e88e5);
+            color: var(--tg-theme-button-text-color, white);
             border: none;
             width: 40px;
             height: 40px;
             border-radius: 50%;
             font-size: 20px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             margin: 20px auto;
             display: flex;
             align-items: center;
@@ -131,7 +141,8 @@
         }
 
         .swap-button:hover {
-            background-color: #1565c0;
+            background-color: var(--tg-theme-secondary-bg-color, #1565c0);
+            transform: rotate(180deg);
         }
 
         .currency-modal {
@@ -144,54 +155,102 @@
             height: 100%;
             overflow: auto;
             background-color: rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .currency-modal.show {
+            opacity: 1;
         }
 
         .modal-content {
-            background-color: #fefefe;
+            position: relative;
+            background-color: var(--tg-theme-bg-color, #fefefe);
             margin: 15% auto;
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
             max-width: 500px;
             border-radius: 10px;
+            transform: scale(0.7);
+            opacity: 0;
+            transition: all 0.3s ease;
+            min-height: 400px;
+            /* Добавляем минимальную высоту */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .currency-modal.show .modal-content {
+            transform: scale(1);
+            opacity: 1;
         }
 
         .close {
-            color: #aaa;
-            float: right;
+            color: var(--tg-theme-hint-color, #aaa);
             font-size: 28px;
             font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 0 10px;
         }
 
         .close:hover,
         .close:focus {
-            color: black;
+            color: var(--tg-theme-text-color, black);
             text-decoration: none;
-            cursor: pointer;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;    
         }
 
         .currency-filter {
+            width: 80%;
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             margin-bottom: 20px;
         }
 
         .filter-button {
-            padding: 10px;
+            padding: 8px 15px;
             border: none;
-            background-color: #f0f0f0;
+            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
             cursor: pointer;
             border-radius: 5px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .filter-button.active {
-            background-color: #1e88e5;
-            color: white;
+            background-color: var(--tg-theme-button-color, #1e88e5);
+            color: var(--tg-theme-button-text-color, white);
         }
 
         .currency-list {
-            max-height: 300px;
+            height: 300px;
+            /* Фиксированная высота */
             overflow-y: auto;
+            flex-grow: 1;
+            /* Позволяет списку расти и занимать доступное пространство */
+            scrollbar-width: thin;
+            scrollbar-color: var(--tg-theme-button-color, #1e88e5) var(--tg-theme-secondary-bg-color, #f0f0f0);
+        }
+
+        .currency-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .currency-list::-webkit-scrollbar-track {
+            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+        }
+
+        .currency-list::-webkit-scrollbar-thumb {
+            background-color: var(--tg-theme-button-color, #1e88e5);
+            border-radius: 20px;
+            border: 2px solid var(--tg-theme-secondary-bg-color, #f0f0f0);
         }
 
         .currency-item {
@@ -199,16 +258,16 @@
             align-items: center;
             padding: 10px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .currency-item:hover {
-            background-color: #f0f0f0;
+            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
         }
 
         .currency-label {
             width: 30%;
-            background-color: #e0e0e0;
+            background-color: var(--tg-theme-secondary-bg-color, #e0e0e0);
             padding: 5px;
             border-radius: 5px;
             display: flex;
@@ -240,241 +299,307 @@
         .fade-in {
             animation: fadeIn 0.5s ease forwards;
         }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
     </style>
 </head>
 
 <body>
-
-    <body>
-        <div class="container fade-in">
-            <h2>MIKKIEX Exchange</h2>
-            <div class="rate-block">
-                <div class="rate-label">Курс</div>
-                <div class="rate-info">
-                    <div class="rate-currency" id="fromCurrencyLabel">AED</div>
-                    <div class="rate-arrow">→</div>
-                    <div class="rate-currency" id="toCurrencyLabel">USD</div>
-                    <div class="rate-value" id="currentRate">0.27 USD</div>
+    <div class="container fade-in">
+        <h2>MIKKIEX Exchange</h2>
+        <div class="rate-block">
+            <div class="rate-label">Курс</div>
+            <div class="rate-info">
+                <div class="rate-currency" id="fromCurrencyLabel">AED</div>
+                <div class="rate-arrow">→</div>
+                <div class="rate-currency" id="toCurrencyLabel">USD</div>
+                <div class="rate-value pulse" id="currentRate">0.27 USD</div>
+            </div>
+        </div>
+        <form id="exchangeForm">
+            <div class="exchange-block">
+                <div class="exchange-label">Что отдаете?</div>
+                <div class="exchange-input">
+                    <input type="number" id="fromAmount" placeholder="1000" inputmode="decimal">
+                    <div class="currency-select" id="fromCurrency" onclick="openCurrencyModal('from')">
+                        <div class="currency-logo">🇦🇪</div>
+                        <span>AED</span>
+                    </div>
                 </div>
             </div>
-            <form id="exchangeForm">
-                <div class="exchange-block">
-                    <div class="exchange-label">Что отдаете?</div>
-                    <div class="exchange-input">
-                        <input type="number" id="fromAmount" placeholder="1000" inputmode="decimal">
-                        <div class="currency-select" id="fromCurrency" onclick="openCurrencyModal('from')">
-                            <div class="currency-logo">🇦🇪</div>
-                            <span>AED</span>
-                        </div>
+            <button type="button" class="swap-button" onclick="swapCurrencies()">⇅</button>
+            <div class="exchange-block">
+                <div class="exchange-label">Что получаете?</div>
+                <div class="exchange-input">
+                    <input type="number" id="toAmount" placeholder="0" readonly>
+                    <div class="currency-select" id="toCurrency" onclick="openCurrencyModal('to')">
+                        <div class="currency-logo">💵</div>
+                        <span>USD</span>
                     </div>
                 </div>
-                <button type="button" class="swap-button" onclick="swapCurrencies()">⇅</button>
-                <div class="exchange-block">
-                    <div class="exchange-label">Что получаете?</div>
-                    <div class="exchange-input">
-                        <input type="number" id="toAmount" placeholder="0" readonly>
-                        <div class="currency-select" id="toCurrency" onclick="openCurrencyModal('to')">
-                            <div class="currency-logo">💵</div>
-                            <span>USD</span>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+            </div>
+        </form>
+    </div>
 
-        <!-- Модальное окно выбора валюты -->
-        <div id="currencyModal" class="currency-modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeCurrencyModal()">&times;</span>
+    <div id="currencyModal" class="currency-modal">
+        <div class="modal-content">
+            <div class="modal-header">
                 <div class="currency-filter">
                     <button class="filter-button active" onclick="filterCurrencies('all')">Все</button>
                     <button class="filter-button" onclick="filterCurrencies('crypto')">Криптовалюта</button>
+                    <button class="filter-button" onclick="filterCurrencies('bank')">Банки</button>
                     <button class="filter-button" onclick="filterCurrencies('cash')">Наличные</button>
                 </div>
-                <div class="currency-list" id="currencyList"></div>
+                <span class="close" onclick="closeCurrencyModal()">&times;</span>
             </div>
+            <div class="currency-list" id="currencyList"></div>
         </div>
+    </div>
+</body>
 
-        <script>
-            // Инициализация Telegram WebApp
-            let tg = window.Telegram.WebApp;
+<script>
+    // Инициализация Telegram WebApp
+    let tg = window.Telegram.WebApp;
 
-            // Глобальные переменные
-            let currentFromCurrency = 'CASHAED';
-            let currentToCurrency = 'CASHUSD';
+    // Глобальные переменные
+    let currentFromCurrency = 'CASHAED';
+    let currentToCurrency = 'CASHUSD';
 
-            // Список валют
-            const currencies = [
-                { code: 'CASHAED', name: 'Наличные дирхамы в Дубай', shortName: 'AED', type: 'cash', logo: '🇦🇪' },
-                { code: 'CASHUSD', name: 'Наличные доллары в Дубай', shortName: 'USD', type: 'cash', logo: '💵' },
-                { code: 'USDTTRC20', name: 'USDT TRC20', shortName: 'USDT', type: 'crypto', logo: '💰' },
-                { code: 'BTC', name: 'Bitcoin', shortName: 'BTC', type: 'crypto', logo: '₿' },
-            ];
+    // Список валют
+    const currencies = [
+        { code: 'CASHAED', name: 'Наличные дирхамы в Дубай', shortName: 'AED', type: 'cash', logo: '🇦🇪' },
+        { code: 'CASHUSD', name: 'Наличные доллары в Дубай', shortName: 'USD', type: 'cash', logo: '💵' },
+        { code: 'USDTTRC20', name: 'USDT TRC20', shortName: 'USDT', type: 'crypto', logo: '💰' },
+        { code: 'BTC', name: 'Bitcoin', shortName: 'BTC', type: 'crypto', logo: '₿' },
+        { code: 'CARDRUB', name: 'Безналичный рубль', shortName: 'RUB', type: 'bank', logo: '💳' },
+        { code: 'CASHRUB', name: 'Наличные рубли в Челябинск', shortName: 'RUB', type: 'cash', logo: '₽' },
+        { code: 'CARDIDR', name: 'Индонезийский рупий в Бали', shortName: 'IDR', type: 'bank', logo: '🇮🇩' },
+        { code: 'SBERRUB', name: 'Сбербанк RUB', shortName: 'RUB', type: 'bank', logo: '🏦' },
+        { code: 'ETH', name: 'Ethereum', shortName: 'ETH', type: 'crypto', logo: 'Ξ' },
+        { code: 'TCSRUB', name: 'Т-Банк RUB', shortName: 'RUB', type: 'bank', logo: '🏦' },
+        { code: 'SBPRUB', name: 'СБП RUB', shortName: 'RUB', type: 'bank', logo: '📲' },
+        { code: 'USDTBEP20', name: 'Tether BEP20', shortName: 'USDT', type: 'crypto', logo: '💰' },
+        { code: 'USDTERC20', name: 'USDT ERC20', shortName: 'USDT', type: 'crypto', logo: '💰' },
+        { code: 'TON', name: 'Ton', shortName: 'TON', type: 'crypto', logo: '💎' },
+        { code: 'LTC', name: 'Litecoin', shortName: 'LTC', type: 'crypto', logo: 'Ł' },
+    ];
 
-            // Курсы обмена
-            const exchangeRates = {
-                "CASHAED": { "CASHUSD": 0.27, "USDTTRC20": 0.27, "BTC": 0.0000089 },
-                "CASHUSD": { "CASHAED": 3.67, "USDTTRC20": 1, "BTC": 0.000033 },
-                "USDTTRC20": { "CASHAED": 3.67, "CASHUSD": 1, "BTC": 0.000033 },
-                "BTC": { "CASHAED": 112000, "CASHUSD": 30500, "USDTTRC20": 30500 }
-            };
+    // Добавляем наличные рубли для разных городов
+    const cities = ['Москва', 'Санкт-Петербург', 'Новосибирск', 'Екатеринбург', 'Краснодар'];
+    cities.forEach(city => {
+        currencies.push({
+            code: 'CASHRUB',
+            name: `Наличные рубли в ${city}`,
+            shortName: 'RUB',
+            type: 'cash',
+            logo: '₽'
+        });
+    });
 
-            // Инициализация приложения
-            function initApp() {
-                tg.expand();
-                updateCurrencyDisplay();
-                updateExchangeRate();
-                document.getElementById('fromAmount').addEventListener('input', updateResult);
+    // Курсы обмена (пример, в реальном приложении эти данные должны приходить от сервера)
+    const exchangeRates = {};
+    currencies.forEach(from => {
+        exchangeRates[from.code] = {};
+        currencies.forEach(to => {
+            if (from.code !== to.code) {
+                exchangeRates[from.code][to.code] = Math.random() * 100; // Генерируем случайный курс
             }
+        });
+    });
 
-            // Обновление отображения валют
-            function updateCurrencyDisplay() {
-                const fromCurrency = getCurrencyInfo(currentFromCurrency);
-                const toCurrency = getCurrencyInfo(currentToCurrency);
+    // Инициализация приложения
+    function initApp() {
+        tg.expand();
+        updateCurrencyDisplay();
+        updateExchangeRate();
+        document.getElementById('fromAmount').addEventListener('input', updateResult);
 
-                document.getElementById('fromCurrencyLabel').textContent = fromCurrency.shortName;
-                document.getElementById('toCurrencyLabel').textContent = toCurrency.shortName;
-                document.getElementById('fromCurrency').innerHTML = `
+        // Добавляем обработчик для изменения темы
+        tg.onEvent('themeChanged', () => {
+            document.body.style.backgroundColor = tg.backgroundColor;
+            document.body.style.color = tg.textColor;
+        });
+    }
+
+    // Обновление отображения валют
+    function updateCurrencyDisplay() {
+        const fromCurrency = getCurrencyInfo(currentFromCurrency);
+        const toCurrency = getCurrencyInfo(currentToCurrency);
+
+        document.getElementById('fromCurrencyLabel').textContent = fromCurrency.shortName;
+        document.getElementById('toCurrencyLabel').textContent = toCurrency.shortName;
+        document.getElementById('fromCurrency').innerHTML = `
         <div class="currency-logo">${fromCurrency.logo}</div>
-        <span>${fromCurrency.shortName}</span>
+        <span>${fromCurrency.code}</span>
     `;
-                document.getElementById('toCurrency').innerHTML = `
+        document.getElementById('toCurrency').innerHTML = `
         <div class="currency-logo">${toCurrency.logo}</div>
-        <span>${toCurrency.shortName}</span>
+        <span>${toCurrency.code}</span>
     `;
+    }
+
+    // Получение информации о валюте
+    function getCurrencyInfo(code) {
+        return currencies.find(c => c.code === code);
+    }
+
+    // Обновление курса обмена
+    function updateExchangeRate() {
+        const rate = getExchangeRate(currentFromCurrency, currentToCurrency);
+        const toCurrency = getCurrencyInfo(currentToCurrency);
+        document.getElementById('currentRate').textContent = `${rate.toFixed(2)} ${toCurrency.shortName}`;
+        document.getElementById('currentRate').classList.add('pulse');
+        setTimeout(() => {
+            document.getElementById('currentRate').classList.remove('pulse');
+        }, 1000);
+    }
+
+    // Получение курса обмена
+    function getExchangeRate(from, to) {
+        if (from === to) return 1;
+        return exchangeRates[from][to] || 1 / exchangeRates[to][from];
+    }
+
+    // Обновление результата обмена
+    function updateResult() {
+        let fromAmount = parseFloat(document.getElementById('fromAmount').value);
+        let toAmountInput = document.getElementById('toAmount');
+
+        if (fromAmount && !isNaN(fromAmount)) {
+            let rate = getExchangeRate(currentFromCurrency, currentToCurrency);
+            let toAmount = (fromAmount * rate).toFixed(2);
+            toAmountInput.value = toAmount;
+
+            tg.MainButton.setParams({
+                text: "Обменять сейчас",
+                is_visible: true,
+            });
+            tg.MainButton.onClick(exchange);
+            tg.MainButton.show();
+        } else {
+            toAmountInput.value = '';
+            tg.MainButton.hide();
+        }
+    }
+
+    // Обмен валют
+    function swapCurrencies() {
+        [currentFromCurrency, currentToCurrency] = [currentToCurrency, currentFromCurrency];
+        updateCurrencyDisplay();
+        updateExchangeRate();
+        let fromAmount = document.getElementById('fromAmount');
+        let toAmount = document.getElementById('toAmount');
+        [fromAmount.value, toAmount.value] = [toAmount.value, fromAmount.value];
+        updateResult();
+
+        document.querySelector('.swap-button').classList.add('rotate');
+        setTimeout(() => {
+            document.querySelector('.swap-button').classList.remove('rotate');
+        }, 300);
+    }
+
+    // Открытие модального окна выбора валюты
+    function openCurrencyModal(type) {
+        document.getElementById('currencyModal').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('currencyModal').classList.add('show');
+        }, 10);
+        filterCurrencies('all', type);
+    }
+
+    // Закрытие модального окна выбора валюты
+    function closeCurrencyModal() {
+        document.getElementById('currencyModal').classList.remove('show');
+        setTimeout(() => {
+            document.getElementById('currencyModal').style.display = 'none';
+        }, 300);
+    }
+
+    // Фильтрация валют
+    function filterCurrencies(filter, type) {
+        const buttons = document.querySelectorAll('.filter-button');
+        buttons.forEach(button => button.classList.remove('active'));
+        event.target.classList.add('active');
+
+        const filteredCurrencies = filter === 'all' ? currencies : currencies.filter(c => c.type === filter);
+        const currencyList = document.getElementById('currencyList');
+        currencyList.innerHTML = '';
+
+        filteredCurrencies.forEach(currency => {
+            if (currency.code === (type === 'from' ? currentToCurrency : currentFromCurrency)) {
+                return; // Пропускаем уже выбранную валюту
             }
-
-            // Получение информации о валюте
-            function getCurrencyInfo(code) {
-                return currencies.find(c => c.code === code);
-            }
-
-            // Обновление курса обмена
-            function updateExchangeRate() {
-                const rate = getExchangeRate(currentFromCurrency, currentToCurrency);
-                const toCurrency = getCurrencyInfo(currentToCurrency);
-                document.getElementById('currentRate').textContent = `${rate.toFixed(2)} ${toCurrency.shortName}`;
-            }
-
-            // Получение курса обмена
-            function getExchangeRate(from, to) {
-                if (from === to) return 1;
-                return exchangeRates[from][to] || 1 / exchangeRates[to][from];
-            }
-
-            // Обновление результата обмена
-            function updateResult() {
-                let fromAmount = parseFloat(document.getElementById('fromAmount').value);
-                let toAmountInput = document.getElementById('toAmount');
-
-                if (fromAmount && !isNaN(fromAmount)) {
-                    let rate = getExchangeRate(currentFromCurrency, currentToCurrency);
-                    let toAmount = (fromAmount * rate).toFixed(2);
-                    toAmountInput.value = toAmount;
-
-                    tg.MainButton.setParams({
-                        text: "Обменять сейчас",
-                        is_visible: true,
-                    });
-                    tg.MainButton.onClick(exchange);
-                    tg.MainButton.show();
-                } else {
-                    toAmountInput.value = '';
-                    tg.MainButton.hide();
-                }
-            }
-
-            // Обмен валют
-            function swapCurrencies() {
-                [currentFromCurrency, currentToCurrency] = [currentToCurrency, currentFromCurrency];
-                updateCurrencyDisplay();
-                updateExchangeRate();
-                let fromAmount = document.getElementById('fromAmount');
-                let toAmount = document.getElementById('toAmount');
-                [fromAmount.value, toAmount.value] = [toAmount.value, fromAmount.value];
-                updateResult();
-            }
-
-            // Открытие модального окна выбора валюты
-            function openCurrencyModal(type) {
-                document.getElementById('currencyModal').style.display = 'block';
-                filterCurrencies('all', type);
-            }
-
-            // Закрытие модального окна выбора валюты
-            function closeCurrencyModal() {
-                document.getElementById('currencyModal').style.display = 'none';
-            }
-
-            // Фильтрация валют
-            function filterCurrencies(filter, type) {
-                const buttons = document.querySelectorAll('.filter-button');
-                buttons.forEach(button => button.classList.remove('active'));
-                event.target.classList.add('active');
-
-                const filteredCurrencies = filter === 'all' ? currencies : currencies.filter(c => c.type === filter);
-                const currencyList = document.getElementById('currencyList');
-                currencyList.innerHTML = '';
-
-                filteredCurrencies.forEach(currency => {
-                    if (currency.code === (type === 'from' ? currentToCurrency : currentFromCurrency)) {
-                        return; // Пропускаем уже выбранную валюту
-                    }
-                    const item = document.createElement('div');
-                    item.className = 'currency-item';
-                    item.innerHTML = `
+            const item = document.createElement('div');
+            item.className = 'currency-item';
+            item.innerHTML = `
             <div class="currency-label">
                 <span class="currency-logo">${currency.logo}</span>
-                <span class="currency-tech-name">${currency.shortName}</span>
+                <span class="currency-tech-name">${currency.code}</span>
             </div>
             <div class="currency-name">${currency.name}</div>
-        `;
-                    item.onclick = () => selectCurrency(currency.code, type);
-                    currencyList.appendChild(item);
-                });
-            }
+            `;
+            item.onclick = () => selectCurrency(currency.code, type);
+            currencyList.appendChild(item);
+        });
+    }
 
-            // Выбор валюты
-            function selectCurrency(code, type) {
-                if (type === 'from') {
-                    currentFromCurrency = code;
-                } else {
-                    currentToCurrency = code;
-                }
-                updateCurrencyDisplay();
-                updateExchangeRate();
-                closeCurrencyModal();
-                updateResult();
-            }
+    // Выбор валюты
+    function selectCurrency(code, type) {
+        if (type === 'from') {
+            currentFromCurrency = code;
+        } else {
+            currentToCurrency = code;
+        }
+        updateCurrencyDisplay();
+        updateExchangeRate();
+        closeCurrencyModal();
+        updateResult();
+    }
 
-            // Выполнение обмена
-            function exchange() {
-                let fromAmount = parseFloat(document.getElementById('fromAmount').value);
-                let toAmount = parseFloat(document.getElementById('toAmount').value);
+    // Выполнение обмена
+    function exchange() {
+        let fromAmount = parseFloat(document.getElementById('fromAmount').value);
+        let toAmount = parseFloat(document.getElementById('toAmount').value);
 
-                if (fromAmount && !isNaN(fromAmount)) {
-                    let data = JSON.stringify({
-                        from: {
-                            currency: currentFromCurrency,
-                            amount: fromAmount
-                        },
-                        to: {
-                            currency: currentToCurrency,
-                            amount: toAmount
-                        },
-                        rate: getExchangeRate(currentFromCurrency, currentToCurrency)
-                    });
-                    tg.sendData(data);
-                    tg.close();
-                } else {
-                    alert('Пожалуйста, введите корректную сумму для обмена');
-                }
-            }
+        if (fromAmount && !isNaN(fromAmount)) {
+            let fromCurrency = getCurrencyInfo(currentFromCurrency);
+            let toCurrency = getCurrencyInfo(currentToCurrency);
+            let data = JSON.stringify({
+                from: {
+                    currency: fromCurrency.shortName,
+                    amount: fromAmount
+                },
+                to: {
+                    currency: toCurrency.shortName,
+                    amount: toAmount
+                },
+                rate: getExchangeRate(currentFromCurrency, currentToCurrency)
+            });
+            tg.sendData(data);
+            tg.close();
+        } else {
+            alert('Пожалуйста, введите корректную сумму для обмена');
+        }
+    }
 
-            // Инициализация приложения при загрузке страницы
-            document.addEventListener('DOMContentLoaded', initApp);
-        </script>
-
-    </body>
+    // Инициализация приложения при загрузке страницы
+    document.addEventListener('DOMContentLoaded', initApp);
+</script>
 
 </html>
