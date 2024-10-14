@@ -55,8 +55,9 @@
         }
 
         .rate-currency {
-            font-size: 16px;
-            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .rate-arrow {
@@ -72,6 +73,11 @@
             padding: 5px 10px;
             border-radius: 5px;
             transition: all 0.3s ease;
+        }
+
+        .rate-currency small {
+            font-size: 0.8em;
+            color: var(--tg-theme-hint-color, #757575);
         }
 
         .exchange-block {
@@ -142,7 +148,20 @@
 
         .swap-button:hover {
             background-color: var(--tg-theme-secondary-bg-color, #1565c0);
-            transform: rotate(180deg);
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(180deg);
+            }
+        }
+
+        .swap-button.rotate {
+            animation: rotate 0.3s ease-in-out;
         }
 
         .currency-modal {
@@ -325,9 +344,15 @@
         <div class="rate-block">
             <div class="rate-label">Курс</div>
             <div class="rate-info">
-                <div class="rate-currency" id="fromCurrencyLabel">AED</div>
+                <div class="rate-currency">
+                    <span id="fromCurrencyLabel">AED</span>
+                    <small id="fromCurrencyInfo"></small>
+                </div>
                 <div class="rate-arrow">→</div>
-                <div class="rate-currency" id="toCurrencyLabel">USD</div>
+                <div class="rate-currency">
+                    <span id="toCurrencyLabel">USD</span>
+                    <small id="toCurrencyInfo"></small>
+                </div>
                 <div class="rate-value pulse" id="currentRate">0.27 USD</div>
             </div>
         </div>
@@ -382,45 +407,45 @@
 
     // Список валют
     const currencies = [
-        { code: 'CASHAED', name: 'Наличные дирхамы в Дубай', shortName: 'AED', type: 'cash', logo: '🇦🇪' },
-        { code: 'CASHUSD', name: 'Наличные доллары в Дубай', shortName: 'USD', type: 'cash', logo: '💵' },
-        { code: 'USDTTRC20', name: 'USDT TRC20', shortName: 'USDT', type: 'crypto', logo: '💰' },
-        { code: 'BTC', name: 'Bitcoin', shortName: 'BTC', type: 'crypto', logo: '₿' },
-        { code: 'CARDRUB', name: 'Безналичный рубль', shortName: 'RUB', type: 'bank', logo: '💳' },
-        { code: 'CASHRUB', name: 'Наличные рубли в Челябинск', shortName: 'RUB', type: 'cash', logo: '₽' },
-        { code: 'CARDIDR', name: 'Индонезийский рупий в Бали', shortName: 'IDR', type: 'bank', logo: '🇮🇩' },
-        { code: 'SBERRUB', name: 'Сбербанк RUB', shortName: 'RUB', type: 'bank', logo: '🏦' },
-        { code: 'ETH', name: 'Ethereum', shortName: 'ETH', type: 'crypto', logo: 'Ξ' },
-        { code: 'TCSRUB', name: 'Т-Банк RUB', shortName: 'RUB', type: 'bank', logo: '🏦' },
-        { code: 'SBPRUB', name: 'СБП RUB', shortName: 'RUB', type: 'bank', logo: '📲' },
-        { code: 'USDTBEP20', name: 'Tether BEP20', shortName: 'USDT', type: 'crypto', logo: '💰' },
-        { code: 'USDTERC20', name: 'USDT ERC20', shortName: 'USDT', type: 'crypto', logo: '💰' },
-        { code: 'TON', name: 'Ton', shortName: 'TON', type: 'crypto', logo: '💎' },
-        { code: 'LTC', name: 'Litecoin', shortName: 'LTC', type: 'crypto', logo: 'Ł' },
+        { code: 'CASHAED', name: 'Наличные дирхамы в Дубай', shortName: 'AED', type: 'cash', logo: '🇦🇪', decimals: 2 },
+        { code: 'CASHUSD', name: 'Наличные доллары в Дубай', shortName: 'USD', type: 'cash', logo: '💵', decimals: 2 },
+        { code: 'USDTTRC20', name: 'USDT TRC20', shortName: 'USDT', type: 'crypto', logo: '💰', decimals: 2 },
+        { code: 'BTC', name: 'Bitcoin', shortName: 'BTC', type: 'crypto', logo: '₿', decimals: 8 },
+        { code: 'CARDRUB', name: 'Безналичный рубль', shortName: 'RUB', type: 'bank', logo: '💳', decimals: 2 },
+        { code: 'CASHRUB_CH', name: 'Наличные рубли в Челябинске', shortName: 'RUB', type: 'cash', logo: '₽', decimals: 2, city: 'Челябинск' },
+        { code: 'CASHRUB_MSK', name: 'Наличные рубли в Москве', shortName: 'RUB', type: 'cash', logo: '₽', decimals: 2, city: 'Москва' },
+        { code: 'CASHRUB_SPB', name: 'Наличные рубли в Санкт-Петербурге', shortName: 'RUB', type: 'cash', logo: '₽', decimals: 2, city: 'Санкт-Петербург' },
+        { code: 'CASHRUB_NSB', name: 'Наличные рубли в Новосибирске', shortName: 'RUB', type: 'cash', logo: '₽', decimals: 2, city: 'Новосибирск' },
+        { code: 'CASHRUB_EKB', name: 'Наличные рубли в Екатеринбурге', shortName: 'RUB', type: 'cash', logo: '₽', decimals: 2, city: 'Екатеринбург' },
+        { code: 'CASHRUB_KRS', name: 'Наличные рубли в Краснодаре', shortName: 'RUB', type: 'cash', logo: '₽', decimals: 2, city: 'Краснодар' },
+        { code: 'CARDIDR', name: 'Индонезийский рупий в Бали', shortName: 'IDR', type: 'bank', logo: '🇮🇩', decimals: 2 },
+        { code: 'SBERRUB', name: 'Сбербанк RUB', shortName: 'RUB', type: 'bank', logo: '🏦', decimals: 2 },
+        { code: 'ETH', name: 'Ethereum', shortName: 'ETH', type: 'crypto', logo: 'Ξ', decimals: 2 },
+        { code: 'TCSRUB', name: 'Т-Банк RUB', shortName: 'RUB', type: 'bank', logo: '🏦', decimals: 2 },
+        { code: 'SBPRUB', name: 'СБП RUB', shortName: 'RUB', type: 'bank', logo: '📲', decimals: 2 },
+        { code: 'USDTBEP20', name: 'Tether BEP20', shortName: 'USDT', type: 'crypto', logo: '💰', decimals: 2 },
+        { code: 'USDTERC20', name: 'USDT ERC20', shortName: 'USDT', type: 'crypto', logo: '💰', decimals: 2 },
+        { code: 'TON', name: 'Ton', shortName: 'TON', type: 'crypto', logo: '💎', decimals: 2 },
+        { code: 'LTC', name: 'Litecoin', shortName: 'LTC', type: 'crypto', logo: 'Ł', decimals: 2 },
     ];
-
-    // Добавляем наличные рубли для разных городов
-    const cities = ['Москва', 'Санкт-Петербург', 'Новосибирск', 'Екатеринбург', 'Краснодар'];
-    cities.forEach(city => {
-        currencies.push({
-            code: 'CASHRUB',
-            name: `Наличные рубли в ${city}`,
-            shortName: 'RUB',
-            type: 'cash',
-            logo: '₽'
-        });
-    });
 
     // Курсы обмена (пример, в реальном приложении эти данные должны приходить от сервера)
     const exchangeRates = {};
-    currencies.forEach(from => {
+    currencies.forEach((from, i) => {
         exchangeRates[from.code] = {};
-        currencies.forEach(to => {
-            if (from.code !== to.code) {
-                exchangeRates[from.code][to.code] = Math.random() * 100; // Генерируем случайный курс
-            }
+        currencies.slice(i + 1).forEach(to => {
+            const rate = Math.random() * 100; // Генерируем случайный курс
+            exchangeRates[from.code][to.code] = rate;
+            exchangeRates[to.code] = exchangeRates[to.code] || {};
+            exchangeRates[to.code][from.code] = 1 / rate;
         });
     });
+
+    // Функция для получения курса обмена
+    function getExchangeRate(from, to) {
+        if (from === to) return 1;
+        return exchangeRates[from][to] || 1 / exchangeRates[to][from];
+    }
 
     // Инициализация приложения
     function initApp() {
@@ -428,6 +453,7 @@
         updateCurrencyDisplay();
         updateExchangeRate();
         document.getElementById('fromAmount').addEventListener('input', updateResult);
+        updateExchangeAvailability();
 
         // Добавляем обработчик для изменения темы
         tg.onEvent('themeChanged', () => {
@@ -443,14 +469,30 @@
 
         document.getElementById('fromCurrencyLabel').textContent = fromCurrency.shortName;
         document.getElementById('toCurrencyLabel').textContent = toCurrency.shortName;
-        document.getElementById('fromCurrency').innerHTML = `
-        <div class="currency-logo">${fromCurrency.logo}</div>
-        <span>${fromCurrency.code}</span>
+
+        document.getElementById('fromCurrency').innerHTML = getCurrencyHTML(fromCurrency);
+        document.getElementById('toCurrency').innerHTML = getCurrencyHTML(toCurrency);
+
+        document.getElementById('fromCurrencyInfo').textContent = getAdditionalInfo(fromCurrency);
+        document.getElementById('toCurrencyInfo').textContent = getAdditionalInfo(toCurrency);
+    }
+
+    function getCurrencyHTML(currency) {
+        return `
+        <div class="currency-logo">${currency.logo}</div>
+        <span>${currency.shortName}</span>
     `;
-        document.getElementById('toCurrency').innerHTML = `
-        <div class="currency-logo">${toCurrency.logo}</div>
-        <span>${toCurrency.code}</span>
-    `;
+    }
+
+    function getAdditionalInfo(currency) {
+        if (currency.type === 'crypto' && currency.name.includes('20')) {
+            return currency.name.split(' ').pop(); // Возвращает TRC20, BEP20 или ERC20
+        } else if (currency.type === 'bank') {
+            return currency.name.split(' ')[0]; // Возвращает название банка
+        } else if (currency.type === 'cash' && currency.city) {
+            return currency.city; // Возвращает название города
+        }
+        return '';
     }
 
     // Получение информации о валюте
@@ -482,14 +524,11 @@
 
         if (fromAmount && !isNaN(fromAmount)) {
             let rate = getExchangeRate(currentFromCurrency, currentToCurrency);
-            let toAmount = (fromAmount * rate).toFixed(2);
+            let toCurrency = getCurrencyInfo(currentToCurrency);
+            let toAmount = (fromAmount * rate).toFixed(toCurrency.decimals);
             toAmountInput.value = toAmount;
 
-            tg.MainButton.setParams({
-                text: "Обменять сейчас",
-                is_visible: true,
-            });
-            tg.MainButton.onClick(exchange);
+            updateExchangeAvailability();
             tg.MainButton.show();
         } else {
             toAmountInput.value = '';
@@ -506,6 +545,7 @@
         let toAmount = document.getElementById('toAmount');
         [fromAmount.value, toAmount.value] = [toAmount.value, fromAmount.value];
         updateResult();
+        updateExchangeAvailability();
 
         document.querySelector('.swap-button').classList.add('rotate');
         setTimeout(() => {
@@ -549,10 +589,10 @@
             item.innerHTML = `
             <div class="currency-label">
                 <span class="currency-logo">${currency.logo}</span>
-                <span class="currency-tech-name">${currency.code}</span>
+                <span class="currency-tech-name">${currency.shortName}</span>
             </div>
             <div class="currency-name">${currency.name}</div>
-            `;
+        `;
             item.onclick = () => selectCurrency(currency.code, type);
             currencyList.appendChild(item);
         });
@@ -569,6 +609,7 @@
         updateExchangeRate();
         closeCurrencyModal();
         updateResult();
+        updateExchangeAvailability();
     }
 
     // Выполнение обмена
@@ -594,6 +635,37 @@
             tg.close();
         } else {
             alert('Пожалуйста, введите корректную сумму для обмена');
+        }
+    }
+
+    function isCashToCash() {
+        const fromCurrency = getCurrencyInfo(currentFromCurrency);
+        const toCurrency = getCurrencyInfo(currentToCurrency);
+        return fromCurrency.type === 'cash' && toCurrency.type === 'cash';
+    }
+
+    function isPremiumUser() {
+        return tg.initDataUnsafe?.user?.is_premium || false;
+    }
+
+    function updateExchangeAvailability() {
+        const cashToCash = isCashToCash();
+        const premium = isPremiumUser();
+
+        if (cashToCash && !premium) {
+            tg.MainButton.setParams({
+                text: "Оформите Premium для доступа к этой функции!",
+                color: "#E0E0E0",
+                text_color: "#000000",
+                is_active: false
+            });
+        } else {
+            tg.MainButton.setParams({
+                text: "Обменять сейчас",
+                color: "#2196F3",
+                text_color: "#FFFFFF",
+                is_active: true
+            });
         }
     }
 
