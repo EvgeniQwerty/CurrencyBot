@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # Замените 'YOUR_BOT_TOKEN' на токен вашего бота
-API_TOKEN = '7924767319:AAHvlHY2dydtacKZezM0ismhSl-ahTe3DCU'
+API_TOKEN = 'YOUR_BOT_TOKEN'
 
 # Инициализация бота и диспетчера
 bot = Bot(token=API_TOKEN)
