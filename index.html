@@ -402,8 +402,8 @@
     let tg = window.Telegram.WebApp;
 
     // Глобальные переменные
-    let currentFromCurrency = 'CASHAED';
-    let currentToCurrency = 'CASHUSD';
+    let currentFromCurrency = 'USDTTRC20';
+    let currentToCurrency = 'CASHAED';
 
     // Список валют
     const currencies = [
@@ -589,7 +589,7 @@
             item.innerHTML = `
             <div class="currency-label">
                 <span class="currency-logo">${currency.logo}</span>
-                <span class="currency-tech-name">${currency.shortName}</span>
+                <span class="currency-tech-name">${currency.code}</span>
             </div>
             <div class="currency-name">${currency.name}</div>
         `;
@@ -654,7 +654,7 @@
 
         if (cashToCash && !premium) {
             tg.MainButton.setParams({
-                text: "Оформите Premium для доступа к этой функции!",
+                text: "Доступно для Premium юзеров",
                 color: "#E0E0E0",
                 text_color: "#000000",
                 is_active: false
