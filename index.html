@@ -35,7 +35,7 @@
         }
 
         .rate-block {
-            background-color: var(--tg-theme-bg-color, #f5f5f5);
+            /* background-color: var(--tg-theme-bg-color, #f5f5f5); */
             border-radius: 15px;
             padding: 15px;
             margin-bottom: 25px;
@@ -204,7 +204,7 @@
         .modal-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;    
+            margin-bottom: 20px;
         }
 
         .currency-filter {
@@ -322,7 +322,6 @@
 
 <body>
     <div class="container fade-in">
-        <h2>MIKKIEX Exchange</h2>
         <div class="rate-block">
             <div class="rate-label">Курс</div>
             <div class="rate-info">
@@ -600,6 +599,14 @@
 
     // Инициализация приложения при загрузке страницы
     document.addEventListener('DOMContentLoaded', initApp);
+
+    // Функция для скрытия клавиатуры при клике вне поля ввода
+    document.addEventListener('click', function (event) {
+        const inputElements = ['fromAmount', 'toAmount'];
+        if (!inputElements.includes(event.target.id)) {
+            document.activeElement.blur(); // Снимаем фокус с активного элемента (закрывает клавиатуру)
+        }
+    });
 </script>
 
 </html>
