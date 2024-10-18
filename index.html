@@ -7,336 +7,429 @@
     <title>MIKKIEX Exchange</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            /* padding: 20px; */
-            background-color: var(--tg-theme-bg-color, #f5f5f5);
-            color: var(--tg-theme-text-color, #333);
-        }
+:root {
+    --primary-color: #2F9535;
+    --secondary-color: #57AB5C;
+    --bg-color: #000000;
+    --text-color: #FFFFFF;
+    --input-bg: linear-gradient(0.25turn, var(--secondary-color), #234525);
+    --border-radius: 50px;
+}
 
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            background-color: var(--tg-theme-secondary-bg-color, white);
-            /* border-radius: 20px; */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            transition: all 0.3s ease;
-        }
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
 
-        h2 {
-            text-align: center;
-            color: var(--tg-theme-button-color, #1e88e5);
-            margin-bottom: 25px;
-            font-weight: 500;
-        }
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    background-image: url("img/mikki.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 70px -20px;
+    padding: 20px;
+}
 
-        .rate-block {
-            /* background-color: var(--tg-theme-bg-color, #f5f5f5); */
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 25px;
-            transition: all 0.3s ease;
-        }
+.rate-block {
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 25px;
+    margin-left: 30px;
+}
 
-        .rate-label {
-            font-size: 14px;
-            color: var(--tg-theme-hint-color, #757575);
-            margin-bottom: 10px;
-        }
+.rate-label {
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-decoration: underline;
+}
 
-        .rate-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.rate-info {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
 
-        .rate-currency {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+.rate-currency {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-        .rate-arrow {
-            color: var(--tg-theme-button-color, #1e88e5);
-            font-size: 20px;
-        }
+.rate-arrow {
+    font-size: 20px;
+}
 
-        .rate-value {
-            font-size: 18px;
-            font-weight: 500;
-            color: var(--tg-theme-button-color, #1e88e5);
-            background-color: var(--tg-theme-secondary-bg-color, #e3f2fd);
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
+.rate-value {
+    font-size: 18px;
+    font-weight: 500;
+    color: #2DC504;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
 
-        .rate-currency small {
-            font-size: 0.8em;
-            color: var(--tg-theme-hint-color, #757575);
-        }
+.rate-currency small {
+    font-size: 12px;
+    font-weight: 300;
+}
 
-        .exchange-block {
-            background-color: var(--tg-theme-bg-color, #f5f5f5);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
+.exchange-block {
+    border-radius: 15px;
+    padding: 20px;
+}
 
-        .exchange-label {
-            font-size: 18px;
-            color: var(--tg-theme-hint-color, #757575);
-            margin-bottom: 10px;
-        }
+.exchange-label {
+    font-size: 18px;
+    margin-bottom: 10px;
+    margin-left: 30px;
+    font-weight: 300;
+}
 
-        .exchange-input {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.exchange-input {
+    background: var(--input-bg);
+    padding: 10px 10px 10px 30px;
+    border-radius: var(--border-radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .exchange-input input {
-            border: none;
-            background: transparent;
-            font-size: 24px;
-            outline: none;
-            width: 60%;
-            color: var(--tg-theme-text-color, #333);
-            transition: all 0.3s ease;
-        }
+.exchange-input input {
+    border: none;
+    background: transparent;
+    font-size: 24px;
+    outline: none;
+    width: 60%;
+    color: var(--text-color);
+}
 
-        .currency-select {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            padding: 5px 10px;
-            background-color: var(--tg-theme-secondary-bg-color, #e0e0e0);
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
+.exchange-input input::placeholder {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text-color);
+    font-weight: 700;
+}
 
-        .currency-logo {
-            width: 24px;
-            height: 24px;
-            margin-right: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
+.currency-select {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    background-color: var(--primary-color);
+}
 
-        .swap-button {
-            background-color: var(--tg-theme-button-color, #1e88e5);
-            color: var(--tg-theme-button-text-color, white);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 20px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.currency-logo {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    background-color: var(--text-color);
+    border-radius: 50%;
+}
 
-        .swap-button:hover {
-            background-color: var(--tg-theme-secondary-bg-color, #1565c0);
-        }
+.currency-select::after {
+    content: '▼';
+    margin-left: 10px;
+    font-size: 12px;
+}
 
-        @keyframes rotate {
-            from {
-                transform: rotate(0deg);
-            }
+#exchangeForm {
+    position: relative;
+}
 
-            to {
-                transform: rotate(180deg);
-            }
-        }
+.swap-block {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    right: 55px;
+    top: 140px;
+}
 
-        .swap-button.rotate {
-            animation: rotate 0.3s ease-in-out;
-        }
+.swap-button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .currency-modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+.manager-check {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .currency-modal.show {
-            opacity: 1;
-        }
+.manager-check input {
+    margin-right: 10px;
+}
 
-        .modal-content {
-            position: relative;
-            background-color: var(--tg-theme-bg-color, #fefefe);
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            /* width: 80%; */
-            max-width: 500px;
-            border-radius: 10px;
-            transform: scale(0.7);
-            opacity: 0;
-            transition: all 0.3s ease;
-            min-height: 400px;
-            /* Добавляем минимальную высоту */
-            display: flex;
-            flex-direction: column;
-        }
+.currency-modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(255, 255, 255, 0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
 
-        .currency-modal.show .modal-content {
-            transform: scale(1);
-            opacity: 1;
-        }
+.currency-modal.show {
+    opacity: 1;
+}
 
-        .close {
-            color: var(--tg-theme-hint-color, #aaa);
-            font-size: 28px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            padding: 0 10px;
-        }
+.modal-content {
+    position: relative;
+    background-color: var(--bg-color);
+    margin: 15% auto;
+    padding: 20px;
+    max-width: 500px;
+    border-radius: 10px;
+    transform: scale(0.7);
+    opacity: 0;
+    transition: all 0.3s ease;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
 
-        .close:hover,
-        .close:focus {
-            color: var(--tg-theme-text-color, black);
-            text-decoration: none;
-        }
+.currency-modal.show .modal-content {
+    transform: scale(1);
+    opacity: 1;
+}
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 0 10px;
+}
 
-        .currency-filter {
-            width: 80%;
-            display: flex;
-            /* justify-content: space-between; */
-            margin-bottom: 20px;
-            gap: 5px;
-        }
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
 
-        .filter-button {
-            padding: 8px;
-            border: none;
-            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
+.currency-filter {
+    width: 80%;
+    display: flex;
+    gap: 5px;
+}
 
-        .filter-button.active {
-            background-color: var(--tg-theme-button-color, #1e88e5);
-            color: var(--tg-theme-button-text-color, white);
-        }
+.filter-button {
+    padding: 8px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
 
-        .currency-list {
-            height: 300px;
-            /* Фиксированная высота */
-            overflow-y: auto;
-            flex-grow: 1;
-            /* Позволяет списку расти и занимать доступное пространство */
-            scrollbar-width: thin;
-            scrollbar-color: var(--tg-theme-button-color, #1e88e5) var(--tg-theme-secondary-bg-color, #f0f0f0);
-        }
+.filter-button.active {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
 
-        .currency-list::-webkit-scrollbar {
-            width: 8px;
-        }
+.currency-list {
+    height: 300px;
+    overflow-y: auto;
+    flex-grow: 1;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--primary-color);
+}
 
-        .currency-list::-webkit-scrollbar-track {
-            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
-        }
+.currency-list::-webkit-scrollbar {
+    width: 8px;
+}
 
-        .currency-list::-webkit-scrollbar-thumb {
-            background-color: var(--tg-theme-button-color, #1e88e5);
-            border-radius: 20px;
-            border: 2px solid var(--tg-theme-secondary-bg-color, #f0f0f0);
-        }
+.currency-list::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
 
-        .currency-item {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+.currency-list::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 20px;
+    border: 2px solid #f0f0f0;
+}
 
-        .currency-item:hover {
-            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
-        }
+.currency-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-        .currency-label {
-            width: 30%;
-            background-color: var(--tg-theme-secondary-bg-color, #e0e0e0);
-            padding: 5px;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            margin-right: 10px;
-        }
+.currency-item:hover {
+    background-color: #f0f0f0;
+}
 
-        .currency-tech-name {
-            font-size: 12px;
-        }
+.currency-label {
+    width: 30%;
+    background-color: #e0e0e0;
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
 
-        .currency-name {
-            width: 70%;
-            font-size: 14px;
-        }
+.currency-tech-name {
+    font-size: 12px;
+}
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
+.currency-name {
+    width: 70%;
+    font-size: 14px;
+}
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+.minimum-amount {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+}
 
-        .fade-in {
-            animation: fadeIn 0.5s ease forwards;
-        }
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
 
-            50% {
-                transform: scale(1.05);
-            }
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
 
-            100% {
-                transform: scale(1);
-            }
-        }
+.pulse {
+    animation: pulse 1s infinite;
+}
 
-        .pulse {
-            animation: pulse 1s infinite;
-        }
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(180deg);
+    }
+}
+
+.swap-button.rotate {
+    animation: rotate 0.3s ease-in-out;
+}
+
+/* Медиа-запросы для адаптивности */
+@media screen and (max-width: 480px) {
+    .container {
+        max-width: 100%;
+        padding: 10px;
+        background-position: center -20px;
+    }
+
+    .rate-block {
+        margin-left: 0;
+    }
+
+    .exchange-label {
+        margin-left: 10px;
+    }
+
+    .exchange-input {
+        padding: 10px;
+    }
+
+    .exchange-input input {
+        font-size: 20px;
+    }
+
+    .currency-select {
+        padding: 10px;
+    }
+
+    .swap-block {
+        right: 20px;
+        top: 130px;
+    }
+
+    .modal-content {
+        width: 90%;
+        margin: 10% auto;
+    }
+
+    .currency-filter {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .filter-button {
+        font-size: 12px;
+        padding: 6px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .exchange-input input {
+        font-size: 18px;
+    }
+
+    .currency-select {
+        padding: 8px;
+    }
+
+    .currency-logo {
+        width: 20px;
+        height: 20px;
+        font-size: 16px;
+    }
+
+    .swap-block {
+        right: 10px;
+        top: 120px;
+    }
+
+    .swap-button {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+}
     </style>
 </head>
 
@@ -346,15 +439,15 @@
             <div class="rate-label">Курс</div>
             <div class="rate-info">
                 <div class="rate-currency">
-                    <span id="fromCurrencyLabel">AED</span>
                     <small id="fromCurrencyInfo"></small>
+                    <span id="fromCurrencyLabel">AED</span>
                 </div>
                 <div class="rate-arrow">→</div>
                 <div class="rate-currency">
-                    <span id="toCurrencyLabel">USD</span>
                     <small id="toCurrencyInfo"></small>
+                    <span id="toCurrencyLabel">USD</span>
                 </div>
-                <div class="rate-value pulse" id="currentRate">0.27 USD</div>
+                <div class="rate-value pulse" id="currentRate">0.27 $</div>
             </div>
         </div>
         <form id="exchangeForm">
@@ -368,7 +461,9 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="swap-button" onclick="swapCurrencies()">⇅</button>
+            <div class="swap-block">
+                <button type="button" class="swap-button" onclick="swapCurrencies()">⇅</button>
+            </div>
             <div class="exchange-block">
                 <div class="exchange-label">Что получаете?</div>
                 <div class="exchange-input">
@@ -378,6 +473,11 @@
                         <span>USD</span>
                     </div>
                 </div>
+            </div>
+            <div class="minimum-amount" id="minimumAmountMessage"></div>
+            <div class="manager-check">
+                <input type="checkbox" id="managerCheck">
+                <label for="managerCheck">Менеджер чек</label>
             </div>
         </form>
     </div>
@@ -403,31 +503,16 @@
     let tg = window.Telegram.WebApp;
 
     // Глобальные переменные
-    let currentFromCurrency = 'USDTTRC20';
-    let currentToCurrency = 'CASHAED';
+    let currentFromCurrency = 'CASHAED';
+    let currentToCurrency = 'CASHUSD';
 
     // Список валют
     const currencies = [
-        { code: 'CASHAED', name: 'Наличные дирхамы в Дубай', shortName: 'AED', type: 'cash', logo: '🇦🇪', decimals: 2 },
-        { code: 'CASHUSD', name: 'Наличные доллары в Дубай', shortName: 'USD', type: 'cash', logo: '💵', decimals: 2 },
-        { code: 'USDTTRC20', name: 'USDT TRC20', shortName: 'USDT', type: 'crypto', logo: '💰', decimals: 2 },
-        { code: 'BTC', name: 'Bitcoin', shortName: 'BTC', type: 'crypto', logo: '₿', decimals: 8 },
-        { code: 'CARDRUB', name: 'Безналичный рубль', shortName: 'RUB', type: 'bank', logo: '💳', decimals: 2 },
-        { code: 'CASHRUB_CH', name: 'Наличные рубли в Челябинске', shortName: 'RUB', type: 'cash', logo: '₽', decimals: 2, city: 'Челябинск' },
-        { code: 'CASHRUB_MSK', name: 'Наличные рубли в Москве', shortName: 'RUB', type: 'cash', logo: '₽', decimals: 2, city: 'Москва' },
-        { code: 'CASHRUB_SPB', name: 'Наличные рубли в Санкт-Петербурге', shortName: 'RUB', type: 'cash', logo: '₽', decimals: 2, city: 'Санкт-Петербург' },
-        { code: 'CASHRUB_NSB', name: 'Наличные рубли в Новосибирске', shortName: 'RUB', type: 'cash', logo: '₽', decimals: 2, city: 'Новосибирск' },
-        { code: 'CASHRUB_EKB', name: 'Наличные рубли в Екатеринбурге', shortName: 'RUB', type: 'cash', logo: '₽', decimals: 2, city: 'Екатеринбург' },
-        { code: 'CASHRUB_KRS', name: 'Наличные рубли в Краснодаре', shortName: 'RUB', type: 'cash', logo: '₽', decimals: 2, city: 'Краснодар' },
-        { code: 'CARDIDR', name: 'Индонезийский рупий в Бали', shortName: 'IDR', type: 'bank', logo: '🇮🇩', decimals: 2 },
-        { code: 'SBERRUB', name: 'Сбербанк RUB', shortName: 'RUB', type: 'bank', logo: '🏦', decimals: 2 },
-        { code: 'ETH', name: 'Ethereum', shortName: 'ETH', type: 'crypto', logo: 'Ξ', decimals: 2 },
-        { code: 'TCSRUB', name: 'Т-Банк RUB', shortName: 'RUB', type: 'bank', logo: '🏦', decimals: 2 },
-        { code: 'SBPRUB', name: 'СБП RUB', shortName: 'RUB', type: 'bank', logo: '📲', decimals: 2 },
-        { code: 'USDTBEP20', name: 'Tether BEP20', shortName: 'USDT', type: 'crypto', logo: '💰', decimals: 2 },
-        { code: 'USDTERC20', name: 'USDT ERC20', shortName: 'USDT', type: 'crypto', logo: '💰', decimals: 2 },
-        { code: 'TON', name: 'Ton', shortName: 'TON', type: 'crypto', logo: '💎', decimals: 2 },
-        { code: 'LTC', name: 'Litecoin', shortName: 'LTC', type: 'crypto', logo: 'Ł', decimals: 2 },
+        { code: 'CASHAED', name: 'Наличные дирхамы в Дубай', shortName: 'AED', type: 'cash', logo: '🇦🇪', symbol: 'د.إ', decimals: 2, minAmount: 100 },
+        { code: 'CASHUSD', name: 'Наличные доллары в Дубай', shortName: 'USD', type: 'cash', logo: '🇺🇸', symbol: '$', decimals: 2, minAmount: 50 },
+        { code: 'CARDRUB', name: 'Безналичный рубль', shortName: 'RUB', type: 'bank', logo: '🇷🇺', symbol: '₽', decimals: 2, minAmount: 1000 },
+        { code: 'CASHRUB', name: 'Наличные рубли', shortName: 'RUB', type: 'cash', logo: '🇷🇺', symbol: '₽', decimals: 2, city: 'Челябинск', minAmount: 1000 },
+        { code: 'USDT', name: 'USDT', shortName: 'USDT', type: 'crypto', logo: '💰', symbol: '₮', decimals: 2, minAmount: 10 },
     ];
 
     // Курсы обмена (пример, в реальном приложении эти данные должны приходить от сервера)
@@ -456,11 +541,15 @@
         document.getElementById('fromAmount').addEventListener('input', updateResult);
         updateExchangeAvailability();
 
-        // Добавляем обработчик для изменения темы
-        tg.onEvent('themeChanged', () => {
-            document.body.style.backgroundColor = tg.backgroundColor;
-            document.body.style.color = tg.textColor;
-        });
+        // Запрос к API для получения курсов (замените URL на ваш реальный API endpoint)
+        fetch('http://example.com/api/get_rates')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Received rates:', data);
+                // Обработка полученных курсов
+                // updateExchangeRates(data);
+            })
+            .catch(error => console.error('Error:', error));
     }
 
     // Обновление отображения валют
@@ -486,12 +575,12 @@
     }
 
     function getAdditionalInfo(currency) {
-        if (currency.type === 'crypto' && currency.name.includes('20')) {
-            return currency.name.split(' ').pop(); // Возвращает TRC20, BEP20 или ERC20
+        if (currency.type === 'crypto') {
+            return 'Криптовалюта';
         } else if (currency.type === 'bank') {
-            return currency.name.split(' ')[0]; // Возвращает название банка
-        } else if (currency.type === 'cash' && currency.city) {
-            return currency.city; // Возвращает название города
+            return 'Безналичные';
+        } else if (currency.type === 'cash') {
+            return currency.city ? `Наличные (${currency.city})` : 'Наличные';
         }
         return '';
     }
@@ -505,23 +594,19 @@
     function updateExchangeRate() {
         const rate = getExchangeRate(currentFromCurrency, currentToCurrency);
         const toCurrency = getCurrencyInfo(currentToCurrency);
-        document.getElementById('currentRate').textContent = `${rate.toFixed(2)} ${toCurrency.shortName}`;
+        document.getElementById('currentRate').textContent = `${rate.toFixed(2)} ${toCurrency.symbol}`;
         document.getElementById('currentRate').classList.add('pulse');
         setTimeout(() => {
             document.getElementById('currentRate').classList.remove('pulse');
         }, 1000);
     }
 
-    // Получение курса обмена
-    function getExchangeRate(from, to) {
-        if (from === to) return 1;
-        return exchangeRates[from][to] || 1 / exchangeRates[to][from];
-    }
-
     // Обновление результата обмена
     function updateResult() {
         let fromAmount = parseFloat(document.getElementById('fromAmount').value);
         let toAmountInput = document.getElementById('toAmount');
+        let minimumAmountMessage = document.getElementById('minimumAmountMessage');
+        let fromCurrency = getCurrencyInfo(currentFromCurrency);
 
         if (fromAmount && !isNaN(fromAmount)) {
             let rate = getExchangeRate(currentFromCurrency, currentToCurrency);
@@ -529,10 +614,16 @@
             let toAmount = (fromAmount * rate).toFixed(toCurrency.decimals);
             toAmountInput.value = toAmount;
 
-            updateExchangeAvailability();
-            tg.MainButton.show();
+            if (fromAmount < fromCurrency.minAmount) {
+                minimumAmountMessage.textContent = `Минимальная сумма - ${fromCurrency.minAmount} ${fromCurrency.shortName}`;
+                tg.MainButton.hide();
+            } else {
+                minimumAmountMessage.textContent = '';
+                updateExchangeAvailability();
+            }
         } else {
             toAmountInput.value = '';
+            minimumAmountMessage.textContent = '';
             tg.MainButton.hide();
         }
     }
@@ -617,6 +708,7 @@
     function exchange() {
         let fromAmount = parseFloat(document.getElementById('fromAmount').value);
         let toAmount = parseFloat(document.getElementById('toAmount').value);
+        let managerCheck = document.getElementById('managerCheck').checked;
 
         if (fromAmount && !isNaN(fromAmount)) {
             let fromCurrency = getCurrencyInfo(currentFromCurrency);
@@ -630,7 +722,8 @@
                     currency: toCurrency.shortName,
                     amount: toAmount
                 },
-                rate: getExchangeRate(currentFromCurrency, currentToCurrency)
+                rate: getExchangeRate(currentFromCurrency, currentToCurrency),
+                managerCheck: managerCheck
             });
             tg.sendData(data);
             tg.close();
@@ -652,6 +745,8 @@
     function updateExchangeAvailability() {
         const cashToCash = isCashToCash();
         const premium = isPremiumUser();
+        const fromAmount = parseFloat(document.getElementById('fromAmount').value);
+        const fromCurrency = getCurrencyInfo(currentFromCurrency);
 
         if (cashToCash && !premium) {
             tg.MainButton.setParams({
@@ -660,10 +755,17 @@
                 text_color: "#000000",
                 is_active: false
             });
+        } else if (fromAmount < fromCurrency.minAmount) {
+            tg.MainButton.setParams({
+                text: "Недостаточная сумма",
+                color: "#E0E0E0",
+                text_color: "#000000",
+                is_active: false
+            });
         } else {
             tg.MainButton.setParams({
-                text: "Обменять сейчас",
-                color: "#2196F3",
+                text: "Обменять",
+                color: "#2F9535",
                 text_color: "#FFFFFF",
                 is_active: true
             });
